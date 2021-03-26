@@ -17,4 +17,4 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) throw err;
-console.log(`Connection made on PORT: ${connection.port}`)});
+console.log(`Connection made on PORT: ${connection.threadId}\n`)});
