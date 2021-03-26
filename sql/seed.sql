@@ -18,7 +18,7 @@ department_id)
 VALUES
 ("Manager", "115000.50", 1),
 ("HR Specialist", "57000.80", 2),
-("Engineer", "80000.50", 3),
+("Legal Advisor", "80000.50", 4),
 ("Engineer", "85500.30", 3);
 
 INSERT INTO department
@@ -26,4 +26,5 @@ INSERT INTO department
 VALUES
 ("Administration"),
 ("Human Resources"),
-("Development");
+("Development"),
+("Legal");

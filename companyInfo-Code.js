@@ -65,7 +65,7 @@ createDepartment = () => {
         },
         (err, res) => {
           if (err) throw err;
-          console.log(`${res.affectedRows} department inserted!\n`);
+          console.log(`${res.affectedRows} department created!\n`);
           // Call init() AFTER the INSERT completes
           init();
         }
@@ -76,7 +76,46 @@ createDepartment = () => {
 };
 
 
-// createRole()
+createRole = () => {
+  console.log('Creating a new role...\n');
+  inquirer.prompt([
+    {
+        type: 'input',
+        name: 'newRole',
+        message: 'What is the new role?',
+    },
+    {
+      type: 'input',
+      name: 'salary',
+      message: 'What is the salary of this role?',
+  },
+    // {
+    //   type: 'list',
+    //   name: 'departmentID',
+    //   message: 'Which department is this for',
+    //   choice: '',
+    // },
+])
+    .then((data) => {
+      const query = connection.query(
+        'INSERT INTO role SET ?',
+        {
+          title: `${data.newRole}`,
+          salary: `${data.salary}`
+          // department_id: `${data.departmentID}`
+        },
+        (err, res) => {
+          if (err) throw err;
+          console.log(`${res.affectedRows} role created!\n`);
+          // Call init() AFTER the INSERT completes
+          init();
+        }
+      );
+        // logs the actual query being run
+        console.log(query.sql);
+    })
+
+}
 
 
 // createEmployee()
