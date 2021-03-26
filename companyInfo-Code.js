@@ -92,7 +92,7 @@ createRole = () => {
     // {
     //   type: 'list',
     //   name: 'departmentID',
-    //   message: 'Which department is this for',
+    //   message: 'Which department is this role in?',
     //   choice: '',
     // },
 ])
@@ -101,8 +101,8 @@ createRole = () => {
         'INSERT INTO role SET ?',
         {
           title: `${data.newRole}`,
-          salary: `${data.salary}`
-          // department_id: `${data.departmentID}`
+          salary: `${data.salary}`,
+          // department_id: `${data.departmentID}`,
         },
         (err, res) => {
           if (err) throw err;
@@ -118,7 +118,53 @@ createRole = () => {
 }
 
 
-// createEmployee()
+createEmployee= () => {
+  console.log('Creating a new employee...\n');
+  inquirer.prompt([
+    {
+        type: 'input',
+        name: 'firstName',
+        message: 'What is the employees first name?',
+    },
+    {
+      type: 'input',
+      name: 'lastName',
+      message: 'What is the employees last name?',
+    },
+      // {
+    //   type: 'list',
+    //   name: 'roleID',
+    //   message: 'Which role does this employee hold?',
+    //   choice: '',
+    // },
+    // {
+    //   type: 'list',
+    //   name: 'departmentID',
+    //   message: 'Which department is this employee in?',
+    //   choice: '',
+    // },
+])
+    .then((data) => {
+      const query = connection.query(
+        'INSERT INTO employee SET ?',
+        {
+          first_name: `${data.firstName}`,
+          last_name: `${data.lastName}`,
+          // role_id: `${data.roleID}`,
+          // department_id: `${data.departmentID}`,
+        },
+        (err, res) => {
+          if (err) throw err;
+          console.log(`${res.affectedRows} employee created!\n`);
+          // Call init() AFTER the INSERT completes
+          init();
+        }
+      );
+        // logs the actual query being run
+        console.log(query.sql);
+    })
+
+}
 
 
 // readDepartment()
