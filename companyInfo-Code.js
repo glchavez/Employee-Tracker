@@ -17,13 +17,13 @@ const connection = mysql.createConnection({
 
 
 function init() {
-  console.log("Let's view you company.")
+  console.log("\nLet's edit you company information...")
   inquirer.prompt([
       {
           type: 'list',
           name: 'task',
           message: 'What would you like to do?',
-          choices: ['Add a new department', 'Add a new employee role', 'Add a new employee']
+          choices: ['Add a new department', 'Add a new employee role', 'Add a new employee', 'View all employees']
       },
   ])
       .then((data) => {
@@ -40,6 +40,10 @@ function init() {
             createEmployee();
             break;
 
+          case 'View all employees':
+            readEmployee();
+            break;
+  
           default:
             console.log(`Invalid action: ${data.task}`);
             break;
@@ -115,7 +119,7 @@ createRole = () => {
         console.log(query.sql);
     })
 
-}
+};
 
 
 createEmployee= () => {
@@ -164,16 +168,26 @@ createEmployee= () => {
         console.log(query.sql);
     })
 
-}
+};
 
 
 // readDepartment()
 
-
 // readRole()
 
 
-// readEmployee()
+readEmployee = () => {
+  console.log('Getting all employees...\n');
+      connection.query('SELECT * FROM employee ', (err, res) => {
+          if (err) throw err;
+          res.forEach(({first_name, last_name}) => {
+          console.log(`${first_name} ${last_name}`);
+          })
+          // Call init() AFTER the READ completes
+          init();
+        }
+      );
+};
 
 
 // updateEmployeeRole()
