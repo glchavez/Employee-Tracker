@@ -82,6 +82,21 @@ createDepartment = () => {
 
 createRole = () => {
   console.log('Creating a new role...\n');
+
+  const departments = [];
+
+  connection.query('SELECT * FROM department ', (err, res) => {
+    if (err) throw err;
+
+    res.forEach(({id, name}) => {
+      departments.push(
+        {
+          name: `${name}`,
+          value: `${id}`
+        })
+    })
+  });
+
   inquirer.prompt([
     {
         type: 'input',
@@ -93,12 +108,12 @@ createRole = () => {
       name: 'salary',
       message: 'What is the salary of this role?',
   },
-    // {
-    //   type: 'list',
-    //   name: 'departmentID',
-    //   message: 'Which department is this role in?',
-    //   choice: '',
-    // },
+    {
+      type: 'list',
+      name: 'departmentID',
+      message: 'Which department is this role in?',
+      choices: departments
+    },
 ])
     .then((data) => {
       const query = connection.query(
@@ -106,7 +121,7 @@ createRole = () => {
         {
           title: `${data.newRole}`,
           salary: `${data.salary}`,
-          // department_id: `${data.departmentID}`,
+          department_id: `${data.departmentID}`,
         },
         (err, res) => {
           if (err) throw err;

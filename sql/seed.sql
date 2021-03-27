@@ -1,15 +1,12 @@
 USE company_infoDB;
 
-INSERT INTO employee
-(first_name,
-last_name,
-role_id,
-manager_id)
+INSERT INTO department
+(name)
 VALUES
-("Richard", "Smith", 3, 3),
-("Peter", "Pan", 4, 3),
-("Sarah", "Snow", 1, NULL),
-("Daniel", "Davidson", 2, 3);
+("Administration"),
+("Human Resources"),
+("Development"),
+("Legal");
 
 INSERT INTO role
 (title,
@@ -21,10 +18,13 @@ VALUES
 ("Legal Advisor", "80000.50", 4),
 ("Engineer", "85500.30", 3);
 
-INSERT INTO department
-(name)
+INSERT INTO employee
+(first_name,
+last_name,
+role_id,
+manager_id)
 VALUES
-("Administration"),
-("Human Resources"),
-("Development"),
-("Legal");
+("Sarah", "Snow", 1, NULL),
+("Richard", "Smith", 3, 1),
+("Peter", "Pan", 4, 1),
+("Daniel", "Davidson", 2, 1);
