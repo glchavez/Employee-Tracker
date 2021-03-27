@@ -87,7 +87,6 @@ createRole = () => {
 
   connection.query('SELECT * FROM department ', (err, res) => {
     if (err) throw err;
-
     res.forEach(({id, name}) => {
       departments.push(
         {
@@ -139,6 +138,44 @@ createRole = () => {
 
 createEmployee= () => {
   console.log('Creating a new employee...\n');
+
+  const roles = [];
+  const managers =[
+    {
+      name: 'None',
+      value: 0
+    }
+  ];
+
+  connection.query('SELECT * FROM role ', (err, res) => {
+    if (err) throw err;
+    res.forEach(({id, title}) => {
+      roles.push(
+        {
+          name: `${title}`,
+          value: `${id}`
+        })
+    })
+  });
+
+  let query = 
+    'SELECT employee.id, employee.first_name, employee.last_name ';
+  query +=
+    'FROM employee INNER JOIN role ON (employee.role_id = role.id)';
+  query +=
+    'WHERE (role.title = "Manager")';
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    res.forEach(({id, first_name, last_name}) => {
+      managers.push(
+        {
+          name: `${first_name} ${last_name}`,
+          value: `${id}`
+        })
+    })
+  });
+
+
   inquirer.prompt([
     {
         type: 'input',
@@ -150,39 +187,57 @@ createEmployee= () => {
       name: 'lastName',
       message: 'What is the employees last name?',
     },
-      // {
-    //   type: 'list',
-    //   name: 'roleID',
-    //   message: 'Which role does this employee hold?',
-    //   choice: '',
-    // },
-    // {
-    //   type: 'list',
-    //   name: 'departmentID',
-    //   message: 'Which department is this employee in?',
-    //   choice: '',
-    // },
+    {
+      type: 'list',
+      name: 'roleID',
+      message: 'Which role does this employee hold?',
+      choices: roles
+    },
+    {
+      type: 'list',
+      name: 'managerID',
+      message: 'Who is the manager of this employee?',
+      choices: managers
+    },
 ])
     .then((data) => {
-      const query = connection.query(
-        'INSERT INTO employee SET ?',
-        {
-          first_name: `${data.firstName}`,
-          last_name: `${data.lastName}`,
-          // role_id: `${data.roleID}`,
-          // department_id: `${data.departmentID}`,
-        },
-        (err, res) => {
-          if (err) throw err;
-          console.log(`${res.affectedRows} employee created!\n`);
-          // Call init() AFTER the INSERT completes
-          init();
-        }
-      );
-        // logs the actual query being run
-        console.log(query.sql);
+      if (data.managerID == 0) {
+        const query = connection.query(
+          'INSERT INTO employee SET ?',
+          {
+            first_name: `${data.firstName}`,
+            last_name: `${data.lastName}`,
+            role_id: `${data.roleID}`,
+          },
+          (err, res) => {
+            if (err) throw err;
+            console.log(`${res.affectedRows} employee created!\n`);
+            // Call init() AFTER the INSERT completes
+            init();
+          }
+        ); 
+          // logs the actual query being run
+          console.log(query.sql);
+      } else {
+        const query = connection.query(
+          'INSERT INTO employee SET ?',
+          {
+            first_name: `${data.firstName}`,
+            last_name: `${data.lastName}`,
+            role_id: `${data.roleID}`,
+            manager_id: `${data.managerID}`,
+          },
+          (err, res) => {
+            if (err) throw err;
+            console.log(`${res.affectedRows} employee created!\n`);
+            // Call init() AFTER the INSERT completes
+            init();
+          }
+        );
+          // logs the actual query being run
+          console.log(query.sql);
+      }
     })
-
 };
 
 
