@@ -22,7 +22,7 @@ function init() {
           type: 'list',
           name: 'task',
           message: 'What would you like to do?',
-          choices: ['Add a new department', 'Add a new employee role', 'Add a new employee', 'View all employees', 'View all departments']
+          choices: ['Add a new department', 'Add a new role', 'Add a new employee', 'View all employees', 'View all departments', 'View all roles']
       },
   ])
       .then((data) => {
@@ -31,7 +31,7 @@ function init() {
             createDepartment();
             break;
   
-          case 'Add a new employee role':
+          case 'Add a new role':
             createRole();
             break;
   
@@ -45,6 +45,10 @@ function init() {
   
           case 'View all departments':
             readDepartment();
+            break;
+
+          case 'View all roles':
+            readRole();
             break;
   
           default:
@@ -256,18 +260,23 @@ readDepartment = () => {
 }
 
 
-// readRole = () =>{
-  // console.log('Getting all employees...\n');
-  //     connection.query('SELECT * FROM employee ', (err, res) => {
-  //         if (err) throw err;
-          // res.forEach(({first_name, last_name}) => {
-          // console.log(res);
-          // })
-          // Call init() AFTER the READ completes
-      //     init();
-      //   }
-      // );
-// }
+readRole = () => {
+  console.log('\nGetting all roles...\n');
+
+  let query = 
+    'SELECT role.id, role.title, role.salary, department.name AS department ';
+  query +=
+    'FROM (role INNER JOIN department ON role.department_id = department.id) ';
+  query+=
+    'ORDER BY role.id ASC ';
+  connection.query(query, (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      // Call init() AFTER the READ completes
+      init();
+    }
+  );
+}
 
 
 readEmployee = () => {
