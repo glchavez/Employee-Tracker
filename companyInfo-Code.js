@@ -17,13 +17,12 @@ const connection = mysql.createConnection({
 
 
 function init() {
-  console.log("\nLet's edit you company information...")
   inquirer.prompt([
       {
           type: 'list',
           name: 'task',
           message: 'What would you like to do?',
-          choices: ['Add a new department', 'Add a new employee role', 'Add a new employee', 'View all employees']
+          choices: ['Add a new department', 'Add a new employee role', 'Add a new employee', 'View all employees', 'View all departments']
       },
   ])
       .then((data) => {
@@ -44,6 +43,10 @@ function init() {
             readEmployee();
             break;
   
+          case 'View all departments':
+            readDepartment();
+            break;
+  
           default:
             console.log(`Invalid action: ${data.task}`);
             break;
@@ -53,7 +56,7 @@ function init() {
 
 
 createDepartment = () => {
-  console.log('Creating a new department...\n');
+  console.log('\nCreating a new department...\n');
   inquirer.prompt([
     {
         type: 'input',
@@ -81,7 +84,7 @@ createDepartment = () => {
 
 
 createRole = () => {
-  console.log('Creating a new role...\n');
+  console.log('\nCreating a new role...\n');
 
   const departments = [];
 
@@ -137,7 +140,7 @@ createRole = () => {
 
 
 createEmployee= () => {
-  console.log('Creating a new employee...\n');
+  console.log('\nCreating a new employee...\n');
 
   const roles = [];
   const managers =[
@@ -241,18 +244,16 @@ createEmployee= () => {
 };
 
 
-// readDepartment = () => {
-  // console.log('Getting all employees...\n');
-  //     connection.query('SELECT * FROM employee ', (err, res) => {
-  //         if (err) throw err;
-          // res.forEach(({first_name, last_name}) => {
-          // console.log(res);
-          // })
+readDepartment = () => {
+  console.log('\nGetting all departments...\n');
+      connection.query('SELECT * FROM department ', (err, res) => {
+          if (err) throw err;
+          console.table(res);
           // Call init() AFTER the READ completes
-      //     init();
-      //   }
-      // );
-// }
+          init();
+        }
+      );
+}
 
 
 // readRole = () =>{
@@ -270,7 +271,7 @@ createEmployee= () => {
 
 
 readEmployee = () => {
-  console.log('Getting all employees...\n');
+  console.log('\nGetting all employees...\n');
 
   let query = 
     'SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department ';
