@@ -241,22 +241,50 @@ createEmployee= () => {
 };
 
 
-// readDepartment()
+// readDepartment = () => {
+  // console.log('Getting all employees...\n');
+  //     connection.query('SELECT * FROM employee ', (err, res) => {
+  //         if (err) throw err;
+          // res.forEach(({first_name, last_name}) => {
+          // console.log(res);
+          // })
+          // Call init() AFTER the READ completes
+      //     init();
+      //   }
+      // );
+// }
 
-// readRole()
+
+// readRole = () =>{
+  // console.log('Getting all employees...\n');
+  //     connection.query('SELECT * FROM employee ', (err, res) => {
+  //         if (err) throw err;
+          // res.forEach(({first_name, last_name}) => {
+          // console.log(res);
+          // })
+          // Call init() AFTER the READ completes
+      //     init();
+      //   }
+      // );
+// }
 
 
 readEmployee = () => {
   console.log('Getting all employees...\n');
-      connection.query('SELECT * FROM employee ', (err, res) => {
-          if (err) throw err;
-          res.forEach(({first_name, last_name}) => {
-          console.log(`${first_name} ${last_name}`);
-          })
-          // Call init() AFTER the READ completes
-          init();
-        }
-      );
+
+  let query = 
+    'SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department ';
+  query +=
+    'FROM ((employee INNER JOIN role ON employee.role_id = role.id) INNER JOIN department ON role.department_id = department.id) ';
+  query+=
+    'ORDER BY employee.id ASC ';
+  connection.query(query, (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      // Call init() AFTER the READ completes
+      init();
+    }
+  );
 };
 
 
