@@ -20,13 +20,15 @@ Starting data has been inputed into the database for a functional example. You c
 
 To run the application in the integrated terminal of the companyInfo-Code.js file, you will need to enter "npm run start". This will bring up the home prompt asking what you would like to do. Select any of the following options:
 
--Add a new department
--Add a new role
--Add a new employee
--View all employees
--View all departments
--View all roles
--Update an employees role
+<ul>
+<li>Add a new department</li>
+<li>Add a new role</li>
+<li>Add a new employee</li>
+<li>View all employees</li>
+<li>View all departments</li>
+<li>View all roles</li>
+<li>Update an employees role</li>
+</ul>
 
 You will be directed to enter required informatio for each option. Once all data is collected, the database will be updated with user input.
 
