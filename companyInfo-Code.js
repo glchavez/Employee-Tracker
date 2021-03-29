@@ -73,8 +73,7 @@ createDepartment = () => {
     },
   ])
     .then((data) => {
-      const query = connection.query(
-        'INSERT INTO department SET ?',
+      connection.query('INSERT INTO department SET ? ',
         {
           name: `${data.newDepartment}`,
         },
@@ -85,8 +84,6 @@ createDepartment = () => {
           init();
         }
       );
-      // logs the actual query being run
-      console.log(query.sql);
     })
 };
 
@@ -126,8 +123,7 @@ createRole = () => {
     },
   ])
     .then((data) => {
-      const query = connection.query(
-        'INSERT INTO role SET ?',
+      connection.query('INSERT INTO role SET ? ',
         {
           title: `${data.newRole}`,
           salary: `${data.salary}`,
@@ -140,8 +136,6 @@ createRole = () => {
           init();
         }
       );
-      // logs the actual query being run
-      console.log(query.sql);
     })
 
 };
@@ -213,8 +207,7 @@ createEmployee = () => {
   ])
     .then((data) => {
       if (data.managerID == 0) {
-        const query = connection.query(
-          'INSERT INTO employee SET ?',
+        connection.query('INSERT INTO employee SET ? ',
           {
             first_name: `${data.firstName}`,
             last_name: `${data.lastName}`,
@@ -227,11 +220,8 @@ createEmployee = () => {
             init();
           }
         );
-        // logs the actual query being run
-        console.log(query.sql);
       } else {
-        const query = connection.query(
-          'INSERT INTO employee SET ?',
+        connection.query('INSERT INTO employee SET ? ',
           {
             first_name: `${data.firstName}`,
             last_name: `${data.lastName}`,
@@ -245,8 +235,6 @@ createEmployee = () => {
             init();
           }
         );
-        // logs the actual query being run
-        console.log(query.sql);
       }
     })
 };
@@ -358,7 +346,7 @@ updateEmployeeRole = () => {
           },
         ])
           .then((data) => {
-            const query = connection.query('UPDATE employee SET ? WHERE ? ',
+            connection.query('UPDATE employee SET ? WHERE ? ',
               [
                 {
                   role_id: data.updatedRole,
@@ -374,8 +362,6 @@ updateEmployeeRole = () => {
                 init();
               }
             );
-            // logs the actual query being run
-            console.log(query.sql);
           })
       }
     })
