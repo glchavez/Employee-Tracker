@@ -1,6 +1,8 @@
 # Employee-Tracker
 
-## Description
+This application saves company information (such as departments, roles, and employees) into a database, which can then be viewed and edited at later times by company officials.
+
+## Overview
 
 This application takes in user input from pre-defined questions and interacts with a company employee database. It is intended to help individuals quikly view and make changes to their company employee roster information. They will be able to view/add departments, roles, employees, and update current employee roles and departments.
 
